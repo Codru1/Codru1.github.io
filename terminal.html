@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codru's Terminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #000;
+            color: #00ff00;
+            font-family: 'Fira Code', monospace;
+            font-size: 18px;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        .terminal {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #000;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+        }
+        .welcome-text {
+            animation: fadeIn 1.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        a {
+            color: #00ff00;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        hr {
+            border: 1px solid #00ff00;
+            margin: 20px 0;
+        }
+        .command-line {
+            color: #00ff00;
+            margin-top: 20px;
+        }
+        .input-area {
+            margin-top: 10px;
+        }
+        .input-area input {
+            background-color: #000;
+            color: #00ff00;
+            border: none;
+            outline: none;
+            width: 100%;
+            padding: 10px;
+            font-family: 'Fira Code', monospace;
+            font-size: 18px;
+        }
+        .commands-list {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #111;
+            border-radius: 5px;
+            border: 1px solid #555;
+        }
+        .commands-list ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .commands-list li {
+            margin: 5px 0;
+        }
+        .commands-list a {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="terminal">
+        <div class="welcome-text">
+            <h1>Welcome to the Codru's Webshell</h1>
+            <p>Type or select a command to learn more about me.</p>
+            <div class="commands-list">
+                <p>Available commands (type or click to use):</p>
+                <ul>
+                    <li><a href="#" onclick="executeCommand('cat tryhackme.txt'); return false;">cat tryhackme.txt</a></li>
+                    <li><a href="#" onclick="executeCommand('cat certifications.txt'); return false;">cat certifications.txt</a></li>
+                    <li><a href="#" onclick="executeCommand('cat info.txt'); return false;">cat info.txt</a></li>
+                    <li><a href="#" onclick="executeCommand('cat partners.txt'); return false;">cat partners.txt</a></li>
+                    <li><a href="#" onclick="executeCommand('whoami'); return false;">whoami</a></li>
+                    <li><a href="#" onclick="executeCommand('clear'); return false;">clear</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="command-line">
+            <pre>www-data@codru:~$</pre>
+        </div>
+        <div class="input-area">
+            <input type="text" id="commandInput" placeholder="Enter a command...">
+        </div>
+
+        <div id="output"></div>
+    </div>
+
+    <script>
+        const commandInput = document.getElementById('commandInput');
+        const outputDiv = document.getElementById('output');
+
+        function executeCommand(command) {
+            commandInput.value = command;
+            processCommand();
+        }
+
+        function processCommand() {
+            const command = commandInput.value.trim().toLowerCase();
+            let response = '';
+
+            switch (command) {
+                case 'cat tryhackme.txt':
+                    response = '<p>Check my tryhackme profile at: <a href="https://tryhackme.com/r/p/codrutSparrow" target="_blank">https://tryhackme.com/r/p/codrutSparrow</a></p>';
+                    break;
+                case 'cat certifications.txt':
+                    response =  '<p>My certifications:</p>' +
+                               '<ul>' +
+                               '<li><a href="https://tryhackme-certificates.s3-eu-west-1.amazonaws.com/THM-OIJ2NLGOWZ.pdf" target="_blank">THM Jr. Pentester</a></li>' +
+                               '<li><a href="https://tryhackme-certificates.s3-eu-west-1.amazonaws.com/THM-MTWPGB8BM1.pdf" target="_blank">THM Web Fundamentals</a></li>' +
+                               '<li><a href="https://tryhackme-certificates.s3-eu-west-1.amazonaws.com/THM-97NFGAXEQZ.pdf" target="_blank">THM Pre security</a></li>' +
+                               '</ul>';
+                    break;
+                case 'cat info.txt':
+                    response = '<p>About Hi there! I am Codrut While I am still a student, I have a desire to learn and grow.I have a strong interest in Cybersecurity and penetration testing.</p>';
+                    break;
+                case 'cat partners.txt':
+                    response = '<p>Companies&people I worked and still working with:</p>' +
+                               '<ul>' +
+                               '<li><a href="https://vcatalog.ro/" target="_blank">Vcatalog: Online gradebook for ~10 Romanian schools</a></li>' +
+                               '<li><a href="https://01studio.dev/" target="_blank">01studio: Game modding studio</a></li>' +
+                      
+                               '</ul>';
+                    break;
+                case 'whoami':
+                    response = '<p>www-data</p>';
+                    break;
+                case 'clear':
+                    outputDiv.innerHTML = '';
+                    commandInput.value = '';
+                    return;
+                default:
+                    response = '<p>Unknown command: ' + command + '</p>';
+            }
+
+            outputDiv.innerHTML = '<div class="command-line"><pre>www-data@codru:~$ ' + command + '</pre></div>' + response;
+            commandInput.value = '';
+            outputDiv.scrollTop = outputDiv.scrollHeight;
+        }
+
+        commandInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                processCommand();
+            }
+        });
+    </script>
+</body>
+</html>
